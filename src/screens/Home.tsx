@@ -1,49 +1,100 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../AppNavigator';
 
-type HomeScreenProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+//interface das cards
+interface Task {
+  id: string;
+  title: string;
+  done: boolean;
+}
 
 export default function HomeScreen() {
-  const navigation = useNavigation<HomeScreenProp>();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [newTask, setNewTask] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
+
+  // Adiciona uma nova tarefa
+  const handleAddTask = () => {
+    if (!newTask.trim()) {
+      Alert.alert('Atenção', 'Digite uma tarefa antes de adicionar.');
+      return;
+    }
+
+    const newItem: Task = {
+      id: Date.now().toString(),
+      title: newTask,
+      done: false,
+    };
+
+    setTasks([...tasks, newItem]);
+    setNewTask('');
+    setIsAdding(false);
+  };
+
+  // Alterna o status da tarefa (feito / não feito)
+  const toggleDone = (id: string) => {
+    setTasks(tasks.map(task => task.id === id ? { ...task, done: !task.done } : task));
+  };
+
+  // Exclui tarefa
+  const deleteTask = (id: string) => {
+    setTasks(tasks.filter(task => task.id !== id));
+  };
+
+  const renderItem = ({ item }: { item: Task }) => (
+    <View style={styles.card}>
+      {/* Quadrado de marcação */}
+      <TouchableOpacity style={styles.checkBox} onPress={() => toggleDone(item.id)}>
+        {item.done && <Ionicons name="checkmark" size={20} color="#fff" />}
+      </TouchableOpacity>
+
+      {/* Texto da tarefa */}
+      <Text style={[styles.cardText, item.done && styles.cardTextDone]}>
+        {item.title}
+      </Text>
+
+      {/* Lixeira */}
+      <TouchableOpacity onPress={() => deleteTask(item.id)}>
+        <Ionicons name="trash-outline" size={24} color="#d11a2a" />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      {/* Card Bem Vindo*/}
-      <View style={styles.card}>
-        <View style={styles.header}>
-          <Ionicons name="home-outline" size={40} color="#4A90E2" />
-          <Text style={styles.title}>Bem-vindo!</Text>
+      <Text style={styles.title}>Minhas Tarefas</Text>
+
+      {/* Lista de tarefas */}
+      <FlatList
+        data={tasks}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
+
+      {/* Campo para adicionar tarefa */}
+      {isAdding && (
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Nova tarefa..."
+            placeholderTextColor="#aaa"
+            value={newTask}
+            onChangeText={setNewTask}
+          />
+          <TouchableOpacity style={styles.addButtonSmall} onPress={handleAddTask}>
+            <Ionicons name="checkmark" size={22} color="#fff" />
+          </TouchableOpacity>
         </View>
+      )}
 
-        <Text style={styles.text}>
-          Este aplicativo está na versão beta. Entao ainda iremos adicionar funcionalidades a ele.
-        </Text>
-      </View>
-
-      {/* Navegação */}
-      <View style={styles.optionsContainer}>
-        <TouchableOpacity
-          style={styles.option}
-          onPress={() => navigation.navigate('Details')}
-        >
-          <Ionicons name="information-circle-outline" size={24} color="#4A90E2" />
-          <Text style={styles.optionText}>Sobre a Equipe</Text>
-          <Ionicons name="chevron-forward" size={20} color="#aaa" style={{ marginLeft: 'auto' }} />
+      {/* Botão flutuante de adicionar */}
+      {!isAdding && (
+        <TouchableOpacity style={styles.floatingButton} onPress={() => setIsAdding(true)}>
+          <Ionicons name="add" size={32} color="#fff" />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.option}
-          onPress={() => navigation.navigate('Settings')}
-        >
-          <Ionicons name="settings-outline" size={24} color="#4A90E2" />
-          <Text style={styles.optionText}>Configurações</Text>
-          <Ionicons name="chevron-forward" size={20} color="#aaa" style={{ marginLeft: 'auto' }} />
-        </TouchableOpacity>
-      </View>
+      )}
     </View>
   );
 }
@@ -51,57 +102,84 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
-    paddingHorizontal: 20,
-    paddingTop: 40,
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
+    backgroundColor: '#F8F8F8',
     padding: 20,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-    gap: 10,
   },
   title: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#333',
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    marginTop: 40,
+    color: '#4A90E2',
+    textAlign: 'center',
   },
-  text: {
-    fontSize: 16,
-    color: '#555',
-    lineHeight: 24,
-    textAlign: 'justify',
-  },
-  optionsContainer: {
-    marginTop: 30,
-  },
-  option: {
+  card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
+    backgroundColor: '#FFF',
     borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
     marginBottom: 10,
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: 4,
   },
-  optionText: {
+  checkBox: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: '#4A90E2',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+    backgroundColor: '#4A90E2',
+  },
+  cardText: {
+    flex: 1,
     fontSize: 16,
-    marginLeft: 10,
     color: '#333',
+  },
+  cardTextDone: {
+    textDecorationLine: 'line-through',
+    color: '#999',
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 25,
+    right: 25,
+    backgroundColor: '#4A90E2',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
+  },
+  inputContainer: {
+    position: 'absolute',
+    bottom: 25,
+    right: 25,
+    left: 25,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    elevation: 5,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    paddingHorizontal: 10,
+    color: '#333',
+  },
+  addButtonSmall: {
+    backgroundColor: '#4A90E2',
+    padding: 10,
+    borderRadius: 10,
   },
 });

@@ -12,16 +12,11 @@ export default function DetailsScreen() {
         </View>
 
         <Text style={styles.text}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt, magna eu
-          suscipit hendrerit, tortor metus esse easter egg vale 10 mauris neque vel erat.
-          Donec lacinia tincidunt magna, vitae faucibus metus ullamcorper at. Integer efficitur
-          dapibus lorem, vel posuere enim tincidunt vel.
+        Trabalho feito por Gustavo Máximo e Marcos Bonfin, alunos do curso de ADS na Unifasipe de Sinop - MT.
         </Text>
 
         <Text style={styles.text}>
-          Phasellus ut est in nisl eleifend hendrerit. Suspendisse potenti. Nulla facilisi. Duis
-          finibus mauris sit amet pulvinar dictum. Vestibulum ante ipsum primis in faucibus orci
-          luctus et ultrices posuere cubilia curae; Fusce et nibh non ex tristique aliquam.
+         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut obcaecati eaque, perferendis incidunt veniam temporibus quidem natus beatae quia. Voluptates maiores reprehenderit eum blanditiis suscipit. Itaque magni error ullam labore.
         </Text>
 
         <Text style={styles.text}>
@@ -44,6 +39,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 12,
+    marginTop: 40,
     padding: 20,
     elevation: 3,
     shadowColor: '#000',
