@@ -2,16 +2,16 @@
 ### Aplicativo To-Do List
 
 ## 📌 Visão Geral  
-**AT-N3-DISPMOVEIS** é uma aplicação de **lista de tarefas (To-Do List)** desenvolvida por **Gustavo Máximo** e **Marcos Bonfim**.  
-O projeto tem como objetivo ajudar os usuários a organizar suas tarefas diárias de forma prática e intuitiva, permitindo adicionar, editar, marcar como concluídas e remover tarefas.
+**To do List** é uma aplicação de **lista de tarefas** desenvolvida por **Gustavo Máximo** e **Marcos Bonfim**.  
+O projeto tem como objetivo ajudar os usuários a organizar suas tarefas diárias de forma prática e intuitiva, permitindo adicionar, marcar como concluídas e remover tarefas.
 
 ---
 
 ## 🚀 Tecnologias Utilizadas  
 - **TypeScript**  
 - **React / React Native**  
-- **Node.js**  
-- **NPM ou Yarn**  
+- **Node.js** 
+- **Expo**  
 - Outras dependências descritas no arquivo `package.json`
 
 ---
@@ -27,15 +27,11 @@ cd AT-N3-DISPMOVEIS
 ### 2. Instale as dependências  
 ```bash
 npm install
-# ou
-yarn install
 ```
 
 ### 3. Execute o projeto  
 ```bash
 npm start
-# ou
-yarn start
 ```
 
 > O aplicativo será iniciado no navegador ou em um simulador de dispositivo móvel, dependendo da sua configuração.
@@ -44,10 +40,8 @@ yarn start
 
 ## 📋 Funcionalidades  
 ✅ Adicionar novas tarefas  
-✅ Marcar tarefas como concluídas  
-✅ Editar tarefas existentes  
+✅ Marcar tarefas como concluídas   
 ✅ Remover tarefas  
-✅ Armazenar o estado das tarefas (caso o projeto use armazenamento local)
 
 ---
 
@@ -57,7 +51,6 @@ AT-N3-DISPMOVEIS/
 │
 ├── assets/            # Imagens, ícones e outros recursos
 ├── src/               # Código-fonte principal
-│   ├── components/    # Componentes reutilizáveis
 │   ├── screens/       # Telas do aplicativo
 │   ├── services/      # Serviços e lógica de dados
 │   └── App.tsx        # Ponto de entrada do app
@@ -105,8 +98,7 @@ THE SOFTWARE.
 ---
 
 ## 💬 Contato  
-📧 gustavomaximo@example.com  
-📧 marcosbonfim@example.com  
+📧 gustavomaximo072@gmail.com  
 🔗 [GitHub - BernMaximo](https://github.com/BernMaximo)
 
 ---
